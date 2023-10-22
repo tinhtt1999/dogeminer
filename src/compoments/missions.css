@@ -1,0 +1,112 @@
+.missions{
+    width: 100%;
+    font-family: Exo2;
+    background-color: black;
+    color: white;
+}
+.c_mission{
+    padding: 200px 20px 100px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 80px;
+}
+.c_c_m{
+    background: url(../media/bg-card.png);
+    width: 80%;
+    min-width: 300px;
+    padding: 40px 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    border-radius: 10px;
+}
+.l_c_m{
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    gap: 20px;
+}
+.l_c_m h3{
+    color: #ffe400;
+    animation: text_a 700ms linear infinite 300ms;
+}
+@keyframes text_a{
+    from{
+        color: #ffe400;
+    }
+    to{
+        color: transparent;
+    }
+}
+.s_l_l_c{
+    line-height: 1.6;
+}
+.r_c_m{
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    flex-direction: column;
+    height: inherit;
+}
+.r_c_m h3{
+    font-size: 40px;
+    color: #ffe400;
+    line-height: 1.4;
+}
+.s_r_c{
+    text-align: end;
+}
+.btn_j {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 12rem;
+    overflow: hidden;
+    height: 3rem;
+    background-size: 300% 300%;
+    background-color: #ffe400;
+    border-radius: 5rem;
+    /* transition: all 0.5s ease 0s; */
+    /* animation: 5s ease 0s infinite normal none running gradient_301; */
+    border: 4px double transparent;
+    background-image: linear-gradient(rgb(30 36 44), rgb(255 0 162)), linear-gradient(137.48deg, rgb(255, 219, 59) 10%, rgb(254, 83, 187) 45%, rgb(143, 81, 234) 67%, rgb(0, 68, 255) 87%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+}
+.btn_j a{
+    animation: 800ms ease 0s infinite normal none running blinkText;
+    letter-spacing: 5px;
+}
+@keyframes blinkText{
+    50% {
+        transform: scale(1.1);
+    }
+}
+@media (max-width: 800px) {
+    .c_c_m{
+        flex-direction: column;
+    }
+    .l_c_m, .r_c_m{
+        width: 90%;
+    }
+    .r_c_m{
+        align-items: center;
+        gap: 20px;
+    }
+    .s_r_c{
+        text-align: center;
+    }
+    .s_r_c h3{
+        font-size: 30px;
+    }
+    .s_r_c br{
+        display: none;
+    }
+}

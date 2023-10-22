@@ -1,38 +1,160 @@
-.App {
-  text-align: center;
+h1, h2, h3, h4, h5, h6, p, ul {
+  margin: 0;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+a{
+  text-decoration: none;
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+@font-face {
+  font-family: Exo2;
+  src: url(./media/Exo2-VariableFont_wght.ttf);
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.App {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Exo2;
+  background-color: black;
+}
+header{
+  position: fixed;
+  top: 40px;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 10;
+}
+.header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: black;
+  width: 80%;
+}
+.h_logo{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 30%;
+}
+.h_logo img{
+  width: 60px;
+}
+.h_nav{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  width: 40%;
+  font-size: 16px;
+  font-weight: 600;
+}
+.h_nav a:hover{
+  color: #ffe400;
+  font-size: 18px;
+  font-weight: 700;
+}
+.h_connect{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 30%; 
+  font-weight: 500;
+}
+.h_connect p{
+  background: #ffe400;
+  padding: 10px;
+  border-radius: 10px;
+}
+.header_info{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 80%;
+  gap: 5px;
+  overflow: hidden;
+  /* border-radius: 10px; */
+  /* background-color: rgba(0,0,0,0.5); */
+}
+.header_info svg{
+  fill: #ffe400;
+}
+.i_info{
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  white-space: nowrap;
+  color: white;
+}
+.i_info p{
+  animation: text_run 10s infinite linear 0s;
+  letter-spacing: 2px;
+}
+@keyframes text_run{
+  0%{
+    transform: translateX(120%);
   }
-  to {
-    transform: rotate(360deg);
+  100%{
+    transform: translateX(-110%);
+  } 
+}
+.h_nav_mobile {
+  background: black;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+.contract {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 30%;
+  right: 10px;
+  border-radius: 15px;
+  padding: 5px;
+}
+.contract img{
+  width: 30px;
+  padding: 3px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.contract a{
+  border-bottom: 1px solid black;
+}
+.contract img:hover{
+  background-color: #ffe400;
+}
+.contract a:last-child{
+  border: none;
+}
+@media (max-width: 800px) {
+  .h_nav{
+    display: none;
+  }
+  .h_logo, .h_connect{
+    width: 50%;
+  }
+  .h_nav_mobile{
+    display: flex;
+  }
+  .speed_m {
+    font-size: 11px !important;
   }
 }

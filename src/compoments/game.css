@@ -1,0 +1,18 @@
+@font-face {
+    font-family: SupperMario;
+    src: url(../media/SuperMario.ttf);
+}
+.game{
+    width: 100%;
+    font-family: SupperMario;
+    background-color: black;
+    color: white;
+}
+.c_game{
+    padding: 200px 20px 100px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 80px;
+}

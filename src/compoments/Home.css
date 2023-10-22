@@ -1,0 +1,209 @@
+@font-face {
+    font-family: SupperMario;
+    src: url(../media/SuperMario.ttf);
+}
+.Home{
+    /* background: url(../media/bg_home.png);
+    background-size: contain;
+    background-repeat: repeat; */
+    width: 100%;
+    font-family: SupperMario;
+    /* background-color: black; */
+    background: url(../media/background.gif);
+    background-size: contain;
+}
+
+.c_home{
+    padding: 200px 20px 100px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.c_f_home{
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background-color: #ffe400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    /* border: 1px solid #ffe400; */
+}
+.m_f{
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: width 500ms, height 500ms;
+    flex-direction: column;
+    gap: 10px;
+}
+.m_f:hover{
+    width: 300px;
+    height: 300px;
+}
+.m_f:hover .info_miner{
+    font-size: 18px;
+}
+
+.p_miner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.p_miner img:first-child{
+    width: 30%;
+    position: absolute;
+    top: -45%;
+    left: 10%;
+}
+.p_miner img:last-child{
+    width: 65%;
+}
+.info_miner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: font-size 500ms;
+    gap: 10px;
+}
+.info_miner p{
+    font-weight: 600;
+}
+.info_invite{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.note_m{
+    border: 1px solid #ffe400;
+    background-color: rgba(255,255,255,0.5);
+    padding: 10px;
+    position: relative;
+    font-size: 10px;
+    color: white;
+}
+.note_m h4 {
+    position: absolute;
+    left: -10px;
+    top: -20px;
+    font-size: 10px;
+    background-color: #ffe400;
+    padding: 7px 10px;
+    border-radius: 5px;
+    color: black;
+}
+.speed_m{
+    font-size: 14px;
+    color: #ffe400;
+}
+.more_info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+.p_m{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 350px;
+    min-width: 300px;
+    width: 50%;
+    background-color: rgba(255,228,0,0.2);
+    border: 1px solid #ffe400;
+    padding: 20px;
+    border-radius: 20px;
+}
+.p_m:hover{
+    box-shadow: #ffe400 0px 0px 20px;
+}
+.p_m_1{
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.p_m_1 img{
+    width: 70%;
+}
+.p_m_2{
+    width: 65%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    font-size: 12px;
+    gap: 20px;
+    color: white;
+}
+.p_m_2 a{
+    background: #ffe400;
+    padding: 10px;
+    border-radius: 10px;
+    color: black;
+    animation: animation1 1s linear alternate-reverse infinite;
+    cursor: pointer;
+}
+@keyframes animation1{
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0.5;
+    }
+}
+.p_m_3{
+    width: 65%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    font-size: 12px;
+    gap: 20px;
+    color: white;
+}
+.p_m_3 a{
+    background: #ffe400;
+    padding: 10px;
+    border-radius: 10px;
+    color: black;
+    cursor: pointer;
+}
+.p_m_3 a:hover{
+    color: #7700ff;
+    background: #dfc800;
+}
+.btn {
+    text-align: center;
+    animation: 1500ms step-end 0s infinite normal none running blink;
+    width: 80%;
+    font-size: 1.2rem;
+    padding: 1rem 2.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    background-color: rgb(14, 14, 26);
+    color: rgb(234, 234, 234);
+    font-weight: 700;
+    box-shadow: rgb(96, 101, 31) 0px 0px 60px;
+    -webkit-box-reflect: below 10px linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));
+}
+@keyframes blink{
+    50% {
+        background: linear-gradient(270deg, rgba(70, 78, 2, 0.682) 0%, rgba(229, 232, 31, 0.875) 60%);
+    }
+}
