@@ -9,10 +9,53 @@
     width: 100%;
     font-family: SupperMario;
     /* background-color: black; */
-    background: url(../media/background.gif);
+    background: url(../media/bg_home.png);
     background-size: contain;
 }
-
+.Home::before{
+    content: "";
+    background-image: url(https://raw.githubusercontent.com/SochavaAG/example-mycode/master/pens/sparks/images/spark.png);
+    background-position-x: 50%;
+    background-repeat: repeat;
+    background-size: cover;
+    opacity: 0;
+    will-change: transform;
+    position: absolute;
+    inset: 0px;
+}
+.Home::before {
+    animation: 1800s linear 0s infinite normal none running an-spark, 26s linear 13s infinite normal none running an-slow-shake;
+}
+@keyframes an-spark{
+    0% {
+        background-position-y: 0px;
+        opacity: 0;
+    }
+    1%, 99% {
+        opacity: 1;
+    }
+    100% {
+        background-position-y: -3750em;
+        opacity: 0;
+    }
+}
+/* @keyframes an-slow-shake{
+    0% {
+        transform: translateX(0px);
+    }
+    25% {
+        transform: translateX(1.25em);
+    }
+    50% {
+        transform: translateX(0px);
+    }
+    75% {
+        transform: translateX(-1.25em);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+} */
 .c_home{
     padding: 200px 20px 100px 20px;
     display: flex;
@@ -25,30 +68,40 @@
     width: 300px;
     height: 300px;
     border-radius: 50%;
-    background-color: #ffe400;
+    background-color: #ff7d00;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     /* border: 1px solid #ffe400; */
 }
-.m_f{
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    background-color: rgba(255,255,255,2);
+.w_m_f {
+    width: 90%;
+    height: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: width 500ms, height 500ms;
+    background: #ffe400;
+    border-radius: 50%;
+    transition: all 500ms;
+}
+.m_f{
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(253,195,45,1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     gap: 10px;
 }
-.m_f:hover{
-    width: 300px;
-    height: 300px;
+.w_m_f:hover {
+    width: 100%;
+    height: 100%;
+    background-color: #ffe720;
 }
-.m_f:hover .info_miner{
+.w_m_f:hover .info_miner{
     font-size: 18px;
 }
 
@@ -206,4 +259,105 @@
     50% {
         background: linear-gradient(270deg, rgba(70, 78, 2, 0.682) 0%, rgba(229, 232, 31, 0.875) 60%);
     }
+}
+.w_choose {
+    position: fixed;
+    z-index: 100;
+    background: rgba(0,0,0, 0.5);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-family: Exo2;
+  }
+.choose {
+    max-width: 350px;
+    width: 50%;
+    min-width: 350px;
+    background: #ffe400;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px 0;
+    position: relative;
+  }
+  .choose_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .choose_title img{
+    width: 30%;
+  }
+  .choose_title h4{
+    font-size: 20px;
+    letter-spacing: 5px;
+    font-family: 'SupperMario';
+    color: #24004b;
+  }
+  .choose_title h5{
+    font-size: 16px;
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: 5px;
+      color: #24004b;
+  }
+  .choose_btn {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    align-items: center;
+  }
+  .s_c_bth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .s_c_bth a{
+    background: #24004b;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 500ms;
+  }
+  .s_c_bth a:hover{
+    background: #4f3b8a;
+  }
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    transition: all 500ms;
+    cursor: pointer;
+  }
+  .close:hover{
+    width: 35px;
+  }
+  .a_mining_u{
+    animation: aniDown 1s linear infinite;
+  }
+  @keyframes aniDown{
+    0%{
+        transform: rotate(0deg) translateX(0px);
+    }
+    50%{
+        transform: rotate(45deg) translateX(10px);
+    }
+    100%{
+        transform: rotate(0deg) translateX(0px);
+    }
+  }
+.info_mining{
+    font-size: 14px;
 }

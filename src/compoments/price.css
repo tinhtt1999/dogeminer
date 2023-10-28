@@ -1,10 +1,14 @@
 .Price{
     width: 100%;
     font-family: Exo2;
-    background-color: black;
+    /* background: radial-gradient(circle, rgba(250,251,63,1) 0%, rgba(252,70,107,0) 40%); */
     /* background: url(../media/bg-missions.png); */
+    /* background-position: 1rem -10rem; */
+    /* background-repeat: no-repeat; */
+    /* background: url(../media/layer-back.png); */
     color: white;
 }
+
 .c_price{
     padding: 200px 20px 100px 20px;
     display: flex;
@@ -12,6 +16,10 @@
     align-items: center;
     flex-direction: column;
     gap: 80px;
+    background: url(../media/layer-back.png);
+    background-repeat: no-repeat;
+    background-size: 1000px;
+    background-position: 50% 40%;
 }
 .info_price {
     display: flex;
@@ -129,5 +137,9 @@
         top: 35%;
         right: 5%;
         font-size: 12px;
+    }
+    .c_price{
+        background-size: 700px;
+        background-position-y: 25%;
     }
 }

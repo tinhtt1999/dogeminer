@@ -1,12 +1,69 @@
 import './missions.css';
 import telegram from '../media/Telegram.png'
 import twitter from '../media/twitter.png'
-
-
+import { func } from 'prop-types';
+import { child, ref, set, get, update } from "firebase/database";
+import {db, account} from '../App';
+import {notify} from './Home'
+import { async } from '@firebase/util';
 
 
 export default function missions(){
     let height = window.innerHeight;
+    var statusTelegram = false;
+    var statusX = false;
+    var check = true;
+    async function j_mining(){
+        if(localStorage.getItem('checktele')){
+            statusTelegram = localStorage.getItem('checktele')
+        }
+        if(localStorage.getItem('checkx')){
+            statusX = localStorage.getItem('checkx')
+        }
+        if(await getData() == null || await getData() == false){
+            if(statusTelegram == false){
+                window.open("https://www.google.com/", "_blank");
+                localStorage.setItem('checktele', true)
+            }
+            else if(statusX == false){
+                window.open("https://bscscan.com/", "_blank");
+                localStorage.setItem('checkx', true)
+            }
+            else if(account == null){
+                notify("Connect Wallet first!")
+            }
+            else{
+                await setData().then(()=>{
+                    notify("Received free mining!")
+                });
+                
+            }
+        }
+        else{
+            notify("You received free mining!")
+        }
+    }
+    async function updateData(_amount){
+        await update(ref(db, 'miner/' + 'info/' + account),{
+            Total: _amount
+        })
+    }
+    async function setData(){
+        await set(ref(db, 'miner/' + 'info/' + account),{
+            status: true,
+            start: false,
+            speed: 1,
+            time: 0,
+            total: 0
+        })
+    }
+    async function getData(){
+        var _snapshot;
+        await get(child(ref(db),'miner/' + 'info/' + account)).then((snapshot)=>{
+            _snapshot = snapshot.val().status;
+        })
+        return _snapshot;
+    }
     return(
         <div className='missions' style={{minHeight: height}}>
             <div className='c_mission'>
@@ -41,7 +98,7 @@ export default function missions(){
                             <h3>~2500 <br/> DOGE/S</h3>
                             <p>REWARD</p>
                         </div>
-                        <div className='btn_j'>
+                        <div className='btn_j' onClick={j_mining}>
                             <a>Join Missions</a>
                         </div>
                     </div>

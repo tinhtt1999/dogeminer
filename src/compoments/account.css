@@ -190,6 +190,9 @@
     border: #3700ff 1px solid;
     color: black;
 }
+.s2_s p{
+    font-size: 12px;
+}
 @media (max-width: 800px) {
     .s1_u_1_l{
         width: 30%;

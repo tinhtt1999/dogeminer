@@ -3,9 +3,28 @@ import miner from '../media/miner.png'
 import check from '../media/Check.png'
 import usdt from '../media/usdt.png'
 import doge from '../media/xrp-icon.png'
+import { contract_token, web3 ,account, BSC_ID, address_mining, contract_mining, db} from '../App';
+import { notify, getData, updateData } from './Home';
+import $, { error } from "jquery"
 
-export default function account(){
+
+export default function account_page(){
     let height = window.innerHeight;
+    if(!account){
+        setTimeout(async () => {
+            await load_ac();
+        }, 4000);
+}
+    else{
+        setTimeout(async () => {
+            await load_ac();
+        }, 500);
+    }
+    async function load_ac(){
+        $('.speed_i_a').text(await getData("speed"))
+        $('.total_i_a').text((await contract_mining.methods.MinToken(account).call())/10**8)
+        $('.withdraw_i_a').text(await getData("total"))
+    }
     return(
         <div className='account' style={{minHeight: height}}>
             <div className='c_account'>
@@ -20,19 +39,23 @@ export default function account(){
                                     <p className='s2_p'>Current Package</p>
                                     <div className='s2_s'>
                                         <img src={check}/>
-                                        <p>Speed: <span>0 </span><span>DOGE/S</span></p>
+                                        <p>Speed: <span className='speed_i_a'>0</span><span> CHZ/S</span></p>
                                     </div>
                                     <div className='s2_s'>
                                         <img src={check}/>
-                                        <p>Speed: <span>0 </span><span>DOGE/S</span></p>
+                                        <p>Total Package: <span className='total_i_a'>0</span><span> DOGE/S</span></p>
                                     </div>
                                     <div className='s2_s'>
                                         <img src={check}/>
-                                        <p>Speed: <span>0 </span><span>DOGE/S</span></p>
+                                        <p>Duration: <span>6 </span><span>Month</span></p>
+                                    </div>
+                                    <div className='s2_s'>
+                                        <img src={check}/>
+                                        <p>APR/M: <span>20.0% </span></p>
                                     </div>
                                 </div>
                                 <div className='s3_u_1_l'>
-                                    <div className='btn_u'>UPGRADE</div>
+                                    <div className='btn_u' onClick={load_ac}>UPGRADE</div>
                                 </div>
                             </div>
                             <div className='u_2_l'>
@@ -60,7 +83,7 @@ export default function account(){
                                     <h3>Your Referrals</h3>
                                 </div>
                                 <div className='l_d_c_s'>
-                                    <h4><img src={doge}/> 0.0</h4>
+                                    <h4><img src={doge}/> <span className='withdraw_i_a'>0.0</span></h4>
                                 </div>
                                 <div className='btn_withdraw'>
                                     <p>Withdraw</p>

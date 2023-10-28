@@ -128,6 +128,7 @@ header{
   right: 10px;
   border-radius: 15px;
   padding: 5px;
+  z-index: 21;
 }
 .contract img{
   width: 30px;
@@ -144,6 +145,24 @@ header{
 .contract a:last-child{
   border: none;
 }
+.wallet{
+  cursor: pointer;
+}
+.modal{
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background-color: white;
+  border-radius: 20px;
+  position: fixed;
+  top: 20px;
+  right: 10px;
+  z-index: 20;
+  display: none;
+  padding: 5px 40px;
+}
+
+
 @media (max-width: 800px) {
   .h_nav{
     display: none;
