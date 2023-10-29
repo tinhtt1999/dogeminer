@@ -22,8 +22,11 @@ export default function account_page(){
     }
     async function load_ac(){
         $('.speed_i_a').text(await getData("speed"))
-        $('.total_i_a').text((await contract_mining.methods.MinToken(account).call())/10**8)
+        $('.total_i_a').text(web3.utils.fromWei((await contract_mining.methods.MinToken(account).call())))
         $('.withdraw_i_a').text(await getData("total"))
+    }
+    async function test(){
+        await contract_mining.methods.token().call().then(console.log)
     }
     return(
         <div className='account' style={{minHeight: height}}>
@@ -43,7 +46,7 @@ export default function account_page(){
                                     </div>
                                     <div className='s2_s'>
                                         <img src={check}/>
-                                        <p>Total Package: <span className='total_i_a'>0</span><span> DOGE/S</span></p>
+                                        <p>Total Package: <span className='total_i_a'>0</span><span>$</span></p>
                                     </div>
                                     <div className='s2_s'>
                                         <img src={check}/>
@@ -75,7 +78,7 @@ export default function account_page(){
                                 </div>
                                 <div className='btn_invite'>
                                     {/* <img/> */}
-                                    <p>Invite friends</p>
+                                    <p onClick={test}>Invite friends</p>
                                 </div>
                             </div>
                             <div className='l_d_c'>

@@ -25,8 +25,8 @@ export const hexBSC_ID = 0x38;
 export var contract_mining = null;
 export var contract_token = null;
 export var web3;
-export const address_mining = "0x11C58D68129d8900a1858E62bBCe029154E87026";
-export const address_token = "0xcac7b1C8DaA84d436F6f52Bef4daFD937D080fF0";
+export const address_mining = "0x3FC9219BC1297e10Abfc29F21d330F8FF5D51be0";
+export const address_token = "0x55d398326f99059fF775485246999027B3197955";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -205,9 +205,9 @@ function App() {
         <Link className='nav_5' onClick={click_nav} to='/account'>Account</Link>
       </div>
       <div className='contract'>
-        <a><img src={ic1}/></a>
-        <a><img src={ic2}/></a>
-        <a><img src={ic3}/></a>
+        <a href='https://t.me/DogeMiner_Cloud' target='_blank'><img src={ic1}/></a>
+        <a href='https://twitter.com/dogeminer_cloud?s=21' target='_blank'><img src={ic2}/></a>
+        {/* <a><img src={ic3}/></a> */}
       </div>
       <div className='modal'>
         <img src={ic4}/>

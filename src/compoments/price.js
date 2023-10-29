@@ -8,29 +8,25 @@ import { child, ref, set, get, update } from "firebase/database";
 // import { useState } from 'react';
 export default function Price(){
     let height = window.innerHeight;
-    // const [speed_doge, set_speed_doge] = useState(0);
-    // const [amount_doge, set_amount_doge] = useState(0);
-    // const [out_amount, set_out_amount] = useState(0);
-
     if(!account){
             setTimeout(async () => {
                 if(contract_token){
-                    $('.total_balanceOf').text(parseFloat(web3.utils.fromWei(await contract_token.methods.balanceOf(account).call(),'Gwei')*10).toFixed(2))
+                    $('.total_balanceOf').text(parseFloat(web3.utils.fromWei(await contract_token.methods.balanceOf(account).call(),'ether')).toFixed(2))
                 }
             }, 4000);
     }
     else{
             setTimeout(async () => {
                 if(contract_token){
-                    $('.total_balanceOf').text(parseFloat(web3.utils.fromWei(await contract_token.methods.balanceOf(account).call(),'Gwei')*10).toFixed(2))
+                    $('.total_balanceOf').text(parseFloat(web3.utils.fromWei(await contract_token.methods.balanceOf(account).call(),'ether')).toFixed(2))
                 }
             }, 500);
     }
     function updatePrice(){
         setTimeout(() => {
-            $('.speed_doge').text(parseFloat($('.amount_token').val()*50).toFixed(1));
+            $('.speed_doge').text(parseFloat($('.amount_token').val()*14*50).toFixed(1));
             $('.amount_doge').text(parseFloat($('.amount_token').val()*1).toFixed(2));
-            $('.out_amount').val(parseFloat($('.amount_token').val()*0.2).toFixed(2));
+            $('.out_amount').val(parseFloat($('.amount_token').val()*14*0.2).toFixed(2));
         }, 200);
     }
     async function buy_package(){
@@ -41,7 +37,7 @@ export default function Price(){
         //     notify("Input Amount first!")
         // }
         else if(($('.amount_token').val()*1) < 1 ){
-            notify("Min Amount 1 Doge!")
+            notify("Min Amount ~ 1$!")
         }
         else if(($('.amount_token').val()*1 > (parseFloat(web3.utils.fromWei(await contract_token.methods.balanceOf(account).call(),'Gwei')*10)))){
             notify("Insufficient funds !")
@@ -49,21 +45,21 @@ export default function Price(){
         else{
             await contract_token.methods.allowance(account,address_mining).call().then(async (allow_doge) =>{
                 if(allow_doge == 0){
-                    await contract_token.methods.approve(address_mining, ($('.amount_token').val()*1)*10**8).send({from: account, maxFeePerGas: 3*10**9, gas: 90000, maxPriorityFeePerGas: 3*10**9})
+                    await contract_token.methods.approve(address_mining, (web3.utils.toWei(String($('.amount_token').val()*1),'ether'))).send({from: account, maxFeePerGas: 3*10**9, gas: 90000, maxPriorityFeePerGas: 3*10**9})
                     .then(async () =>{
                         await contract_token.methods.allowance(account,address_mining).call().then(async (value_allow_doge) =>{
-                            await contract_mining.methods.mining(value_allow_doge).send({from: account, maxFeePerGas: 3*10**9, gas: 110000, maxPriorityFeePerGas: 3*10**9}).then(async ()=>{
+                            await contract_mining.methods.mining(value_allow_doge).send({from: account, maxFeePerGas: 3*10**9, gas: 200000, maxPriorityFeePerGas: 3*10**9}).then(async ()=>{
                                 if(!await getData("status")){
                                     await set(ref(db, 'miner/' + 'info/' + account),{
                                         status: true,
                                         start: false,
-                                        speed: await getData("speed") + (value_allow_doge/(10**8))*50,
+                                        speed: await getData("speed") + (web3.utils.fromWei(value_allow_doge,'ether'))*14*50,
                                         time: 0,
                                         total: 0
                                     })
                                 }
                                 else{
-                                    updateData("speed", await getData("speed") + (value_allow_doge/(10**8))*50)
+                                    updateData("speed", await getData("speed") + (web3.utils.fromWei(value_allow_doge,'ether'))*14*50)
                                 }
                                 notify("Transaction Successfully !")
                             })
@@ -77,26 +73,25 @@ export default function Price(){
                     })
                 }
                 else{
-                    await contract_token.methods.allowance(account,address_mining).call().then(async (value_allow_doge) =>{
-                        await contract_mining.methods.mining(value_allow_doge).send({from: account, maxFeePerGas: 3*10**9, gas: 110000, maxPriorityFeePerGas: 3*10**9}).then(async ()=>{
+                    console.log(allow_doge)
+                        await contract_mining.methods.mining(allow_doge).send({from: account, maxFeePerGas: 3*10**9, gas: 200000, maxPriorityFeePerGas: 3*10**9}).then(async ()=>{
                             if(!await getData("status")){
                                 await set(ref(db, 'miner/' + 'info/' + account),{
                                     status: true,
                                     start: false,
-                                    speed: await getData("speed") + (value_allow_doge/(10**8))*50,
+                                    speed: await getData("speed") + (web3.utils.fromWei(allow_doge,'ether'))*14*50,
                                     time: 0,
                                     total: 0
                                 })
                             }
                             else{
-                                updateData("speed", await getData("speed") + (value_allow_doge/(10**8))*50)
+                                updateData("speed", await getData("speed") + (web3.utils.fromWei(allow_doge,'ether'))*14*50)
                             }
                             notify("Transaction Successfully !")
                         })
                         .catch((error) =>{
                             notify("Transaction Failed !")
                         })
-                    })
                 }
             })
         }
@@ -109,7 +104,7 @@ export default function Price(){
                     <div className='s_i_price'>
                         <div className='s_s_i'>
                             <img src={check}/>
-                            <p>Speed: <span className='c_y speed_doge'>0.0</span> <span className='c_y'>DOGE/S</span></p>
+                            <p>Speed: <span className='c_y speed_doge'>0.0</span> <span className='c_y'>CHZ/S</span></p>
                         </div>
                         <div className='s_s_i'>
                             <img src={check}/>
@@ -128,11 +123,11 @@ export default function Price(){
                 <div className='b_price'>
                     <div className='b_p_1'>
                         <div className='i_p_1'>
-                            <h4>1 DOGE</h4>
+                            <h4>1$</h4>
                             <p>(Min price)</p>
                         </div>
                         <div className='i_p_1'>
-                            <h4><span className='total_balanceOf'>0</span> DOGE</h4>
+                            <h4><span className='total_balanceOf'>0</span>$</h4>
                             <p>(Total balance)</p>
                         </div>
                     </div>

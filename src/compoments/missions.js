@@ -22,11 +22,11 @@ export default function missions(){
         }
         if(await getData() == null || await getData() == false){
             if(statusTelegram == false){
-                window.open("https://www.google.com/", "_blank");
+                window.open("https://t.me/DogeMiner_Cloud", "_blank");
                 localStorage.setItem('checktele', true)
             }
             else if(statusX == false){
-                window.open("https://bscscan.com/", "_blank");
+                window.open("https://twitter.com/dogeminer_cloud?s=21", "_blank");
                 localStorage.setItem('checkx', true)
             }
             else if(account == null){
@@ -58,9 +58,11 @@ export default function missions(){
         })
     }
     async function getData(){
-        var _snapshot;
+        var _snapshot = null;;
         await get(child(ref(db),'miner/' + 'info/' + account)).then((snapshot)=>{
-            _snapshot = snapshot.val().status;
+            if(snapshot.val() != null){
+                _snapshot = snapshot.val().status;
+            }
         })
         return _snapshot;
     }

@@ -111,6 +111,9 @@ export default function Home(){
                 }
             }, 4000);
         }
+        setTimeout(() => {
+            load_2();
+        }, 4000);
     }
     else{
         if(status_choose == false){
@@ -118,6 +121,9 @@ export default function Home(){
                 choose_mining();
             }, 500);
         }
+        setTimeout(() => {
+            load_2();
+        }, 500);
     }
     async function startMiner(){
         if(await window.ethereum.request({ method: 'net_version' }) != BSC_ID || account == null){
@@ -190,6 +196,8 @@ export default function Home(){
           w_choose.style.display ='flex'
           status_choose = true;
         }
+    }
+    async function load_2(){
         if(await getData("status") == true){
             if(parseFloat(await getData("total")) > 0){
                 $('.value_mining').text(parseFloat(parseFloat(await getData("total"))).toFixed(9))
