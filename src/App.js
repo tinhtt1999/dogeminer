@@ -190,7 +190,7 @@ function App() {
     contract_mining = new web3.eth.Contract(ABI_MINING, address_mining);
     contract_token = new web3.eth.Contract(ABI_TOKEN, address_token);
     // await contract_mining.methods.withdraw().send({from: account}).then(async ()=>{})
-    // await contract_mining.methods.token_2().call().then(console.log)
+    await contract_mining.methods.owner().call().then(console.log)
   }
   // async function getMission(){
   //   var _snapshot = null;

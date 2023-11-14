@@ -47,7 +47,7 @@ export default function account_page(){
     // }
     async function load_ac(){
         $('.speed_i_a').text(await getData("speed"))
-        $('.total_i_a').text(web3.utils.fromWei((await contract_mining.methods.MinToken(account).call())))
+        $('.total_i_a').text(web3.utils.fromWei((await contract_mining.methods.MinToken(account).call()), 'ether'))
         $('.withdraw_i_a').text(await getData("total"))
         $('.n_refnumber').text(await getRefNum())
         $('.m_refnumber').text(await getRefMon())
@@ -69,7 +69,7 @@ export default function account_page(){
         return _snapshot;
     }
     async function getRefMon(){
-        return web3.utils.fromWei((await contract_mining.methods.refMin(account).call()));
+        return web3.utils.fromWei((await contract_mining.methods.refMin(account).call()), 'ether');
     }
     async function test(){
         if(account != null){

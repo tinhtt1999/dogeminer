@@ -42,7 +42,7 @@ export default function Price(){
                 notify("Connect Wallet first!")
             }
             else{
-                let a = parseFloat(web3.utils.fromWei(await contract_token.methods.balanceOf(account).call()))
+                let a = parseFloat(web3.utils.fromWei(await contract_token.methods.balanceOf(account).call(),'ether'))
                 let b = $('.amount_token').val()*1;
                 if(($('.amount_token').val()*1) < 1 ){
                     notify("Min Amount ~ 1$!")
