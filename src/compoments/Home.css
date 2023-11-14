@@ -361,3 +361,6 @@
 .info_mining{
     font-size: 14px;
 }
+.timing_mining{
+    display: none;
+}

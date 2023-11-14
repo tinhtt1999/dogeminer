@@ -177,3 +177,7 @@ header{
     font-size: 11px !important;
   }
 }
+.w_p, .d_p{
+  display: none;
+  width: 30px;
+}

@@ -67,7 +67,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 12rem;
+    width: 11rem;
     overflow: hidden;
     height: 3rem;
     background-size: 300% 300%;
@@ -84,11 +84,19 @@
 .btn_j a{
     animation: 800ms ease 0s infinite normal none running blinkText;
     letter-spacing: 5px;
+    font-size: 12px;
 }
 @keyframes blinkText{
     50% {
         transform: scale(1.1);
     }
+}
+.u_btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
 }
 @media (max-width: 800px) {
     .c_c_m{

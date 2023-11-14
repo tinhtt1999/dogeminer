@@ -8,14 +8,24 @@ import buy_1 from '../media/Group-469304.png'
 import buy_2 from '../media/Group-469302.png'
 import iclose from '../media/icons8-close-48.png'
 import logo from '../media/logo.png'
-import {account, BSC_ID, contract_mining, contract_token, db} from '../App';
+import {account, BSC_ID, contract_mining, contract_token, db, check_chainId} from '../App';
 import { child, ref, set, get, update } from "firebase/database";
 import { func } from 'prop-types';
 export var status_choose =false;
 var statusNotify = true;
-export function notify(content){
+export function notify(content, type = 0){
     const modal_prop = document.querySelector('.modal');
+    const w_p = document.querySelector('.w_p');
+    const d_p = document.querySelector('.d_p');
     const text_m = document.querySelector('.text_m');
+    if(type == 0){
+        w_p.style.display  = 'block';
+        d_p.style.display  = 'none';
+    }
+    else if(type ==1){
+        w_p.style.display  = 'none';
+        d_p.style.display  = 'block';
+    }
     if(statusNotify == true){
         statusNotify = false;
         modal_prop.classList.add("animate__animated");
@@ -60,6 +70,9 @@ export async function getData(index){
             }
         }
     })
+    if(_snapshot == null){
+        _snapshot = 0;
+    }
     return _snapshot;
 }
 export async function updateData(index,value){
@@ -83,6 +96,11 @@ export async function updateData(index,value){
             total: value
         })
     }
+    else if(index == "refCode"){
+        await update(ref(db, 'miner/' + 'info/' + account),{
+            refCode: value
+        })
+    }
     
 }
 export const TDOGE = 155*10**(-11);
@@ -90,12 +108,20 @@ export default function Home(){
     let height = window.innerHeight;
     var w_choose;
     async function copyReferCode(){
-        if(await window.ethereum.request({ method: 'net_version' }) == BSC_ID && account != null){
-            navigator.clipboard.writeText(account);
+        if(window.ethereum){
+            if(await window.ethereum.request({ method: 'net_version' }) == BSC_ID && account != null){
+                var refID = window.location.href + 'pricing' + '?' + 'refId=' + account;
+                navigator.clipboard.writeText(refID);
+                notify("Copied Referral Code!",1)
+            }
+            else{
+                notify("Connect Wallet first!")
+            }
         }
         else{
             notify("Connect Wallet first!")
         }
+        
     }
     async function load(){
         w_choose = document.querySelector('.w_choose');
@@ -145,7 +171,11 @@ export default function Home(){
             else{
                 await updateData("start",false);
                 updateData("total", parseFloat(parseFloat(await getData("total")) + (TDOGE*(await getData("speed"))*((Math.floor(Date.now() / 1000)) - await getData("time")))).toFixed(9))
-                updateData("time",Math.floor(Date.now() / 1000))
+                updateData("time",Math.floor(Date.now() / 1000));
+                $('.h_t_m').text("00");
+                $('.m_t_m').text("00");
+                $('.s_t_m').text("00");
+                
             }
         }
     }
@@ -160,19 +190,26 @@ export default function Home(){
     //     updateData("time",Math.floor(Date.now() / 1000))
     // }
     setInterval(async () => {
-        if(account){
+        if(account && await check_chainId() == BSC_ID){
             if(await getData("start") == true){
                 animationMining();
                 let _time = await getData("time");
                 let _speed = await getData("speed");
                 let _total = await getData("total");
                 let _newtime = Math.floor(Date.now() / 1000)
-                if((_newtime - _time) > 86400 && _speed == 1){
+                if(_speed == 1){
+                    showtime(_time + 3600 - _newtime);
+                }
+                else if(_speed > 1){
+                    showtime(_time + 86400 - _newtime);
+                }
+                if((_newtime - _time) > 3600 && _speed == 1){
                     updateData("start",false)
-                    updateData("total", parseFloat(parseFloat(_total) + (TDOGE*_speed*86400)).toFixed(9))
+                    updateData("total", parseFloat(parseFloat(_total) + (TDOGE*_speed*3600)).toFixed(9))
                     updateData("time",Math.floor(Date.now() / 1000))
                 }
                 else if((_newtime - _time) > 86400 && _speed > 1){
+                    updateData("start",false)
                     updateData("total", parseFloat(parseFloat(_total) + (TDOGE*_speed*86400)).toFixed(9))
                     updateData("time",Math.floor(Date.now() / 1000))
                 }
@@ -189,6 +226,7 @@ export default function Home(){
             animationMining_r();
             $('.value_mining').text("0.00000000")
             $('.speed_t').text("0.00000000000")
+            Nshowtime();
         }
     }, 1000);
     async function choose_mining(){
@@ -208,6 +246,37 @@ export default function Home(){
     function close_choose(){
         w_choose.style.display ='none'
     }
+    function showtime(t){
+        var h=0;
+        var m = 0;
+        var s = 0;
+        h = t/3600;
+        m = (t -parseInt(h)*3600)/60;
+        s = t -parseInt(h)*3600 -parseInt(m)*60;
+        if(parseInt(h)<10){
+            $('.h_t_m').text('0' + parseInt(h))
+        }
+        else{
+            $('.h_t_m').text(parseInt(h))
+        }
+        if(parseInt(m)<10){
+            $('.m_t_m').text('0' + parseInt(m))
+        }
+        else{
+            $('.m_t_m').text(parseInt(m))
+        }
+        if(parseInt(s)<10){
+            $('.s_t_m').text('0' + parseInt(s))
+        }
+        else{
+            $('.s_t_m').text(parseInt(s))
+        }
+        $('.timing_mining').css('display', 'block')
+        // console.log(s)
+    }
+    function Nshowtime(){
+        $('.timing_mining').css('display', 'none')
+    }
     return(
         <div className="Home" style={{minHeight: height}}>
             <div className='c_home'>
@@ -224,6 +293,13 @@ export default function Home(){
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className='timing_mining' style={{color: "white"}}>
+                    <p>
+                        <span className='h_t_m'>00</span>:
+                        <span className='m_t_m'>00</span>:
+                        <span className='s_t_m'>00</span>
+                    </p>
                 </div>
                 <div className='note_m'>
                     <h4>NOTE</h4>

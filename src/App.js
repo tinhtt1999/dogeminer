@@ -4,11 +4,15 @@ import ic1 from './media/icons8-telegram-48.png'
 import ic2 from './media/icons8-twitter-64.png'
 import ic3 from './media/icons8-whitepaper-64.png'
 import ic4 from './media/icons8-error-30.png'
+import ic5 from './media/correct.png'
+import sp from './media/sp.png'
 import $ from "jquery"
 import './App.css';
 import Home from './compoments/Home'
+import {notify} from './compoments/Home'
 import Price from './compoments/price'
 import Missions from './compoments/missions'
+import {getData, getMission, setData} from './compoments/missions'
 import Game from './compoments/game'
 import Account_page from './compoments/account'
 import 'animate.css';
@@ -18,14 +22,14 @@ import Web3 from 'web3';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase } from "firebase/database";
+import { getDatabase, child, ref, set, get, update } from "firebase/database";
 export var account = null;
 export const BSC_ID = 56;
 export const hexBSC_ID = 0x38;
 export var contract_mining = null;
 export var contract_token = null;
 export var web3;
-export const address_mining = "0x3FC9219BC1297e10Abfc29F21d330F8FF5D51be0";
+export const address_mining = "0x2460eD3Ac8C3Eb7F083157E8D0dDf4709bD1aBD5";
 export const address_token = "0x55d398326f99059fF775485246999027B3197955";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -47,6 +51,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const db = getDatabase();
+export async function check_chainId(){
+  return await window.ethereum.request({ method: 'net_version' });
+}
 function App() {
   web3 = new Web3(window.ethereum);
   setTimeout(() => {
@@ -97,36 +104,48 @@ function App() {
   }
 
   var statusWallet =false;
-  var currentChainId = null;
   function accessWallet(){
     if(account == null && statusWallet == false){
-      loginWithMetaMask();
+      if (!window.ethereum) {
+        window.open('https://metamask.app.link/dapp/minerdoge.cloud/')
+      }
+      else{
+        loginWithMetaMask();
+      }
     }
     else if(account != null && statusWallet == true){
       logoutMetaMask();
     }
   }
+  
   async function loginWithMetaMask() {
     if (!window.ethereum) {
-        window.open('https://metamask.io/download/')
+        window.open('https://metamask.app.link/dapp/minerdoge.cloud/')
     }
-    const success_request_accout = await window.ethereum.request({ method: 'eth_requestAccounts' })
+    else{
+      const success_request_accout = await window.ethereum.request({ method: 'eth_requestAccounts' })
     .catch((e) => {
       console.error(e.message)
       return
     })
-    if(success_request_accout != null){
-      account = success_request_accout[0];
-      await check_chainId();
+    
+    if(await check_chainId() != BSC_ID){
       await check_change();
     }
-    if(account != null && currentChainId == BSC_ID){
+    if(success_request_accout != null && await check_chainId() == BSC_ID){
+      account = success_request_accout[0];
       $('.wallet').text(account.substring(0,5)+"..."+account.slice(-5));
       localStorage.setItem('data', account)
       setTimeout( async () => {
         connect_contract();
+        if(await getMission() == true  && await getData() == false){
+          await setData().then(()=>{
+              // notify("Received free mining!")
+          });  
+      }
       }, 500);
       statusWallet = true;
+    }
     }
   }
   function logoutMetaMask(){
@@ -137,11 +156,9 @@ function App() {
     contract_mining = null;
     contract_token= null;
   }
-  async function check_chainId(){
-    currentChainId = await window.ethereum.request({ method: 'net_version' });
-  }
+  
   async function check_change(){
-    if(currentChainId != BSC_ID){
+    if(await check_chainId() != BSC_ID){
       try {
           await window.ethereum.request({
               method:'wallet_switchEthereumChain',
@@ -150,26 +167,56 @@ function App() {
           console.log(`switched to chainid : ${BSC_ID} succesfully`);
           loginWithMetaMask();
       }catch(err){
+          notify("Please switch BSC network!")
           console.log(`error occured while switching chain to chainId ${BSC_ID}, err: ${err.message} code: ${err.code}`);
       }
     }
   }
-  window.ethereum.on('chainChanged', (chainId) => {
-    if(account != null){
-      if(chainId == hexBSC_ID){
-        loginWithMetaMask();
-      }
-      else{
-        logoutMetaMask();
-      }
-    }
-  })
-  loginWithMetaMask();
+  // window.ethereum.on('chainChanged', (chainId) => {
+  //   if(account != null){
+  //     if(chainId == hexBSC_ID){
+  //       loginWithMetaMask();
+  //       console.log("a")
+  //     }
+  //     else{
+  //       logoutMetaMask();
+  //       console.log("b")
+  //     }
+  //   }
+  // })
+  // loginWithMetaMask();
+  accessWallet();
   async function connect_contract(){
     contract_mining = new web3.eth.Contract(ABI_MINING, address_mining);
     contract_token = new web3.eth.Contract(ABI_TOKEN, address_token);
-    await contract_token.methods.name().call().then(console.log)
-  }  
+    // await contract_mining.methods.withdraw().send({from: account}).then(async ()=>{})
+    // await contract_mining.methods.token_2().call().then(console.log)
+  }
+  // async function getMission(){
+  //   var _snapshot = null;
+  //   await get(child(ref(db),'mission/' + 'info/' + account)).then((snapshot)=>{
+  //       if(snapshot.val() != null){
+  //           _snapshot = snapshot.val();
+  //       }
+  //   })
+  //   return _snapshot;
+  // }
+  // async function setMission(){
+  //   await set(ref(db, 'mission/' + 'info/' + account),{
+  //       tele: false,
+  //       twitter: false,
+  //       ref: 0
+  //   })
+  // }
+  // async function getRef(){
+  //   var _snapshot = false;
+  //   await get(child(ref(db),'miner/' + 'info/' + account)).then((snapshot)=>{
+  //       if(snapshot.val() != null){
+  //           _snapshot = snapshot.val().refStatus;
+  //       }
+  //   })
+  //   return _snapshot;
+  // }  
   return (
     <div className="App">
       <header>
@@ -205,12 +252,14 @@ function App() {
         <Link className='nav_5' onClick={click_nav} to='/account'>Account</Link>
       </div>
       <div className='contract'>
-        <a href='https://t.me/DogeMiner_Cloud' target='_blank'><img src={ic1}/></a>
-        <a href='https://twitter.com/dogeminer_cloud?s=21' target='_blank'><img src={ic2}/></a>
-        {/* <a><img src={ic3}/></a> */}
+        <a href='https://t.me/DogeMiner_Cloud' target='_blank' title='Telegram'><img src={ic1}/></a>
+        <a href='https://twitter.com/dogeminer_cloud?s=21' target='_blank' title='Twitter'><img src={ic2}/></a>
+        <a href='https://doge-miner.gitbook.io/cloud/overview/introduction' target='_blank' title='Docs'><img src={ic3}/></a>
+        <a href='https://t.me/Dogeminer_support' target='_blank' title='Support'><img src={sp}/></a>
       </div>
       <div className='modal'>
-        <img src={ic4}/>
+        <img className='w_p' src={ic4}/>
+        <img className='d_p' src={ic5}/>
         <p className='text_m'>Please connect wallet</p>
       </div>
       

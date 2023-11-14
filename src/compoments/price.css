@@ -131,6 +131,28 @@
 .btn_buy:hover{
     border: 1px solid red;
 }
+.r_i{
+    width: 95%;
+    /* min-width: 280px; */
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+}
+.r_i p{
+    width: 100px;
+}
+.refer_c{
+    background: transparent;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    color: white;
+    border-left: 1px #ffe400 solid;
+    padding: 0 10px;
+    width: 80%;
+}
 @media (max-width: 800px) {
     .s_i_price{
         gap: 5px;
@@ -141,5 +163,8 @@
     .c_price{
         background-size: 700px;
         background-position-y: 25%;
+    }
+    .refer_c{
+        width: 50%;
     }
 }
